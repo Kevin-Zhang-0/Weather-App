@@ -98,7 +98,7 @@ function App() {
     
     function getWeather() {
       return fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${cityName},29&appid=1cc9d32cdb1cdf53293e1aad91562a89`
+        `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=1cc9d32cdb1cdf53293e1aad91562a89`
       )
         .then(res => res.json())
         .then(res => {
