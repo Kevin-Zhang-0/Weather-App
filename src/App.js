@@ -8,10 +8,11 @@ function App() {
   const[data, setData] = useState([]);
   const[location,setLocation] = useState([]);
   const[cityName,setName] = useState([]);
-  const[stateCode,setCode] = useState([]);
+  //const[stateCode,setCode] = useState([]);
   navigator.geolocation.getCurrentPosition(function(position) {
     setLat(position.coords.latitude);
     setLong(position.coords.longitude);
+    console.log(lat,long);
   });
 
  
@@ -19,31 +20,34 @@ function App() {
     
     //console.log(lat);
     //console.log(long);
-    getLocation(lat,long)
-    .then(res=>{
-      setLocation(res);
-      try {
-        //var tempob = JSON.parse(d);
-        console.log(res.address.city)
-        //var save = res.address.city;
-        setName(res.address.city);
-        //setCode(res.)
-      } catch(e) {
-        console.log(e);
-      }
-    });
+    if(location!=='undefined'){
+      getLocation(lat,long)
+      .then(res=>{
+        setLocation(res);
+        try {
+          //var tempob = JSON.parse(d);
+          //console.log(res.address.city)
+          //var save = res.address.city;
+          setName(res.address.city);
+          //setCode(res.)
+        } catch(e) {
+          console.log(e);
+        }
+      });
+    }
     
-    
-    getWeather()
-    .then(res=> {
-      try {
-        setData(res);
-      
-      } catch(e) {
-        console.log(e);
-      }
-      
-    });
+    if(data!=='undefined'){
+      getWeather()
+      .then(res=> {
+        try {
+          setData(res);
+        
+        } catch(e) {
+          console.log(e);
+        }
+        
+      });
+    }
     
   
     
@@ -97,6 +101,7 @@ function App() {
     */
     
     function getWeather() {
+      console.log("fetching weather");
       return fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=1cc9d32cdb1cdf53293e1aad91562a89`
       )
@@ -109,11 +114,12 @@ function App() {
           }
           **/
          //res["name"] = "stupid";
+         console.log(res);
          return res;
         });
     }
 
-  }, [lat,long,cityName])
+  }, [lat,long,cityName,])
   /** 
   function cityName(d){
     
@@ -129,6 +135,7 @@ function App() {
 
   
   function getLocation(lat, long) {
+    console.log("fetching location");
     return fetch(
       `https://us1.locationiq.com/v1/reverse.php?key=pk.25830325a0c832028916fe2ec70cfbda&lat=${lat}&lon=${long}&format=json`
     )
@@ -141,13 +148,14 @@ function App() {
         }
         **/
        //data["city"] = res.address.city;
+       console.log(res);
        return res;
       });
   }
 
-  console.log(data);
-  console.log(location);
-  console.log("city name " + cityName);
+  //console.log(data);
+  //console.log(location);
+  //console.log("city name " + cityName);
   
 
 
@@ -160,7 +168,7 @@ function App() {
           
         
       ): (
-        <div></div>
+        <div>..loading</div>
         
       )}
 
