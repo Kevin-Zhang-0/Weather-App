@@ -8,7 +8,7 @@ function App() {
   const[data, setData] = useState([]);
   const[location,setLocation] = useState([]);
   const[cityName,setName] = useState([]);
-
+  const[stateCode,setCode] = useState([]);
   navigator.geolocation.getCurrentPosition(function(position) {
     setLat(position.coords.latitude);
     setLong(position.coords.longitude);
@@ -27,7 +27,7 @@ function App() {
         console.log(res.address.city)
         //var save = res.address.city;
         setName(res.address.city);
-      
+        //setCode(res.)
       } catch(e) {
         console.log(e);
       }
@@ -98,7 +98,7 @@ function App() {
     
     function getWeather() {
       return fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=1cc9d32cdb1cdf53293e1aad91562a89`
+        `https://api.openweathermap.org/data/2.5/weather?q=${cityName},29&appid=1cc9d32cdb1cdf53293e1aad91562a89`
       )
         .then(res => res.json())
         .then(res => {
