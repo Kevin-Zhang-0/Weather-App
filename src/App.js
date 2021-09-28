@@ -4,50 +4,61 @@ import React, { useEffect, useState } from "react";
 import Weather from './components/weather';
 function App() {
   const[lat, setLat] = useState([]);
-  const[long, setLong] = useState([]);
-  const[data, setData] = useState([]);
-  const[location,setLocation] = useState([]);
-  const[cityName,setName] = useState([]);
+  //console.log(lat);
+  //console.log(lat===undefined);
+  const[long, setLong] = useState([undefined]);
+  const[data, setData] = useState([undefined]);
+  const[location,setLocation] = useState([undefined]);
+  const[cityName,setName] = useState([undefined]);
   //const[stateCode,setCode] = useState([]);
+  
   navigator.geolocation.getCurrentPosition(function(position) {
     setLat(position.coords.latitude);
-    setLong(position.coords.longitude);
-    console.log(lat,long);
+    setLong(position.coords.longitude); 
+    //console.log(lat,long);
+    //console.log("ifstate");
+    
   });
 
  
   useEffect(() => {
     
+    
     //console.log(lat);
     //console.log(long);
-    if(location!=='undefined'){
-      getLocation(lat,long)
-      .then(res=>{
-        setLocation(res);
-        try {
-          //var tempob = JSON.parse(d);
-          //console.log(res.address.city)
-          //var save = res.address.city;
-          setName(res.address.city);
-          //setCode(res.)
-        } catch(e) {
-          console.log(e);
-        }
-      });
-    }
+    //console.log("ifstate");
+    //console.log(typeof lat!==undefined);
     
-    if(data!=='undefined'){
-      getWeather()
-      .then(res=> {
-        try {
-          setData(res);
-        
-        } catch(e) {
-          console.log(e);
-        }
-        
-      });
-    }
+    
+    getLocation(lat,long)
+    .then(res=>{
+      //setLocation(res);
+      try {
+        //var tempob = JSON.parse(d);
+        //console.log(res.address.city)
+        //var save = res.address.city;
+        setName(res.address.city);
+        //setCode(res.)
+      } catch(e) {
+        console.log(e);
+      }
+    });
+    
+    
+    
+    
+    getWeather(cityName)
+    .then(res=> {
+      try {
+        setData(res);
+      
+      } catch(e) {
+        console.log(e);
+      }
+      
+    });
+    
+    
     
   
     
@@ -100,26 +111,9 @@ function App() {
     fetchLocation();
     */
     
-    function getWeather() {
-      console.log("fetching weather");
-      return fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=1cc9d32cdb1cdf53293e1aad91562a89`
-      )
-        .then(res => res.json())
-        .then(res => {
-          /** 
-          if (Object.entries(weather).length) {
-            const mappedData = mapDataToWeatherInterface(weather);
-            return mappedData;
-          }
-          **/
-         //res["name"] = "stupid";
-         console.log(res);
-         return res;
-        });
-    }
+    
 
-  }, [lat,long,cityName,])
+  }, [long,cityName])
   /** 
   function cityName(d){
     
@@ -132,12 +126,11 @@ function App() {
     }
   }
   */
+  async function getWeather(cityName) {
+    console.log("fetching weather");
 
-  
-  function getLocation(lat, long) {
-    console.log("fetching location");
-    return fetch(
-      `https://us1.locationiq.com/v1/reverse.php?key=pk.25830325a0c832028916fe2ec70cfbda&lat=${lat}&lon=${long}&format=json`
+    return await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=1cc9d32cdb1cdf53293e1aad91562a89`
     )
       .then(res => res.json())
       .then(res => {
@@ -147,10 +140,34 @@ function App() {
           return mappedData;
         }
         **/
-       //data["city"] = res.address.city;
+       //res["name"] = "stupid";
        console.log(res);
        return res;
       });
+  }
+  
+  async function getLocation(lat, long) {
+    console.log("fetching location");
+    //console.log("ifstate");
+    //console.log(lat);
+    //console.log(lat==='undefined');
+    if((lat!==undefined)&&(typeof long!==undefined)){
+      return await fetch(
+        `https://us1.locationiq.com/v1/reverse.php?key=pk.25830325a0c832028916fe2ec70cfbda&lat=${lat}&lon=${long}&format=json`
+      )
+        .then(res => res.json())
+        .then(res => {
+          /** 
+          if (Object.entries(weather).length) {
+            const mappedData = mapDataToWeatherInterface(weather);
+            return mappedData;
+          }
+          **/
+          //data["city"] = res.address.city;
+          console.log(res);
+          return res;
+        });
+    }
   }
 
   //console.log(data);
