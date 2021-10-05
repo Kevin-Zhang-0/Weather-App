@@ -8,45 +8,31 @@ function App() {
   //console.log(lat===undefined);
   const[long, setLong] = useState([undefined]);
   const[data, setData] = useState([undefined]);
-  const[location,setLocation] = useState([undefined]);
+  //const[location,setLocation] = useState([undefined]);
   const[cityName,setName] = useState([undefined]);
-  //const[stateCode,setCode] = useState([]);
+
   
   navigator.geolocation.getCurrentPosition(function(position) {
     setLat(position.coords.latitude);
     setLong(position.coords.longitude); 
-    //console.log(lat,long);
-    //console.log("ifstate");
-    
+ 
   });
 
  
   useEffect(() => {
-    
-    
-    //console.log(lat);
-    //console.log(long);
-    //console.log("ifstate");
-    //console.log(typeof lat!==undefined);
-    
-    
+
     getLocation(lat,long)
     .then(res=>{
-      //setLocation(res);
+      
       try {
-        //var tempob = JSON.parse(d);
-        //console.log(res.address.city)
-        //var save = res.address.city;
+      
         setName(res.address.city);
-        //setCode(res.)
+        
       } catch(e) {
         console.log(e);
       }
     });
-    
-    
-    
-    
+ 
     getWeather(cityName)
     .then(res=> {
       try {
@@ -57,75 +43,10 @@ function App() {
       }
       
     });
-    
-    
-    
-  
-    
-   
 
-    
-    ///data["name"] = location.City;
-
-    /** 
-    const fetchData = async () => {
-      
-      
-      //console.log(process.env.REACT_APP_API_URL);
-
-      
-      //first
-      //await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&appid=60cae35d1b9a7652148615f5c4e504ac`)
-      //second
-
-      await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&appid=8fa03f46691074555e14ebe2d2a07cce`)
-      .then(res => res.json())
-      .then(result => {
-        setData(result);
-        //console.log(result);
-      });
-      /*
-      await fetch(`https://us1.locationiq.com/v1/reverse.php?key=pk.25830325a0c832028916fe2ec70cfbda&lat=${lat}&lon=${long}&format=json`)
-      .then(res => res.json())
-      .then(result => {
-        setData(result);
-        console.log(result);
-      });
-      
-
-    }
-    const fetchLocation = async () => {
-      
-      await fetch(`https://us1.locationiq.com/v1/reverse.php?key=pk.25830325a0c832028916fe2ec70cfbda&lat=${lat}&lon=${long}&format=json`)
-      .then(res => res.json())
-      .then(result => {
-        setLocation(result);
-        //console.log(location["address"].city);
-        //console.log(result);
-      });
-      
-
-    }
-    
-    fetchData();
-    fetchLocation();
-    */
-    
-    
 
   }, [long,cityName])
-  /** 
-  function cityName(d){
-    
-    try {
-      //var tempob = JSON.parse(d);
-      console.log(d.address.city)
-    
-    } catch(e) {
-      console.log(e);
-    }
-  }
-  */
+ 
   async function getWeather(cityName) {
     console.log("fetching weather");
 
@@ -134,13 +55,6 @@ function App() {
     )
       .then(res => res.json())
       .then(res => {
-        /** 
-        if (Object.entries(weather).length) {
-          const mappedData = mapDataToWeatherInterface(weather);
-          return mappedData;
-        }
-        **/
-       //res["name"] = "stupid";
        console.log(res);
        return res;
       });
@@ -148,33 +62,19 @@ function App() {
   
   async function getLocation(lat, long) {
     console.log("fetching location");
-    //console.log("ifstate");
-    //console.log(lat);
-    //console.log(lat==='undefined');
+
     if((lat!==undefined)&&(typeof long!==undefined)){
       return await fetch(
         `https://us1.locationiq.com/v1/reverse.php?key=pk.25830325a0c832028916fe2ec70cfbda&lat=${lat}&lon=${long}&format=json`
       )
         .then(res => res.json())
         .then(res => {
-          /** 
-          if (Object.entries(weather).length) {
-            const mappedData = mapDataToWeatherInterface(weather);
-            return mappedData;
-          }
-          **/
-          //data["city"] = res.address.city;
+    
           console.log(res);
           return res;
         });
     }
   }
-
-  //console.log(data);
-  //console.log(location);
-  //console.log("city name " + cityName);
-  
-
 
   return (
     <div className="App">
