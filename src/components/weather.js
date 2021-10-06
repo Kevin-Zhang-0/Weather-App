@@ -11,7 +11,7 @@ const WeatherCard = ({weatherData}) => (
       </div>
 
       <div className="flex">
-        <p className="temp">Temprature: {tempConvert(weatherData.main.temp)}&deg;F </p>
+        <p className="temp">Temperature: {tempConvert(weatherData.main.temp)}&deg;F </p>
         <p className="temp">Humidity: {weatherData.main.humidity} %</p>
         
       </div>
