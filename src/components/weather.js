@@ -3,7 +3,9 @@ import './styles.css';
 import moment from 'moment';
 
 const WeatherCard = ({weatherData}) => (
+  
   <div className="main">
+    
       <p className="header">{weatherData.name}</p>
       <div className="flex">
         <p className="day">{moment().format('dddd')}, <span>{moment().format('LL')}</span></p>
@@ -27,8 +29,10 @@ const WeatherCard = ({weatherData}) => (
         <p className="sunrise-sunset">Sunrise: {new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString('en-IN')}</p>
         <p className="sunrise-sunset">Sunset: {new Date(weatherData.sys.sunset * 1000).toLocaleTimeString('en-IN')}</p>
       </div>
-    
+      <a className = "sunrise-sunset" href="https://github.com/Kevin-Zhang-0/weather-app/tree/master">Github Link: https://github.com/Kevin-Zhang-0/weather-app/tree/master</a>
   </div>
+  
+
 )
 function tempConvert(kelvin){
   return (((kelvin -273.15)*1.8)+32).toFixed(0);

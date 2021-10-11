@@ -78,11 +78,15 @@ function App() {
 
   return (
     <div className="App">
+      
       {(typeof data.main != 'undefined') ? (
-       
           
-          <Weather weatherData={data}/>
-          
+        
+        <Weather weatherData={data}/>
+        
+        
+
+
         
       ): (
         <div>..loading</div>
